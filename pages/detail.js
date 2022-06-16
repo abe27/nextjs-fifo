@@ -1,12 +1,15 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
-import { data } from "autoprefixer";
 
-Home.getInitialProps = async (ctx) => {
+DetailPage.getInitialProps = async (ctx) => {
   try {
-    const res = await axios.get("http://localhost:5050/part");
+    const res = await axios.get(
+      `http://localhost:5050/detail/${ctx.query.part_no}`
+    );
     const obj = res.data;
     return { obj };
   } catch (error) {
@@ -14,7 +17,9 @@ Home.getInitialProps = async (ctx) => {
   }
 };
 
-export default function Home({ obj, error }) {
+export default function DetailPage({ obj, error }) {
+  const router = useRouter();
+  const { part_no } = router.query;
   return (
     <div className={styles.container}>
       <Head>
@@ -28,27 +33,27 @@ export default function Home({ obj, error }) {
           <table className="table table-zebra w-full">
             <thead>
               <tr>
-                <th></th>
-                <th>YEAR</th>
+                <th>
+                  <Link href="/">
+                    <a className="btn btn-sm">ย้อนกลับ</a>
+                  </Link>
+                </th>
                 <th>Part No</th>
-                <th>ON FIFO</th>
+                <th>LOTNO</th>
+                <td>SERIAL NO</td>
                 <th>CTN</th>
                 <th>Shelve</th>
-                <td></td>
               </tr>
             </thead>
             <tbody>
               {obj.map((x, i) => (
                 <tr key={i}>
                   <th>{i + 1}</th>
-                  <td>{x.on_year}</td>
                   <td>{x.part_no}</td>
-                  <td>{x.on_fifo_month}</td>
-                  <td>{x.ctn}</td>
-                  <td>{x.min_shelve}</td>
-                  <td>
-                    <a href={`/detail/?part_no=${x.part_no}`} className="btn btn-sm">ข้อมูลเพิ่มเติม</a>
-                  </td>
+                  <td>{x.lotno}</td>
+                  <td>{x.serial_no}</td>
+                  <td>{x.qty}</td>
+                  <td>{x.shelve}</td>
                 </tr>
               ))}
             </tbody>
