@@ -15,11 +15,13 @@ import { useState } from "react";
 // };
 
 export default function Home({ obj, error }) {
+  const [shelve, setShelve] = useState("-")
   const [txtPartNo, setPartNo] = useState(null);
   const [data, setData] = useState(obj);
+
   const handleChange = async (e) => {
     // console.dir(e.target.value)
-    setData([])
+    setData([]);
     setPartNo(e.target.value);
     if (e.target.value.length > 8) {
       try {
@@ -35,10 +37,30 @@ export default function Home({ obj, error }) {
     }
   };
 
+  const handleShelveChange = async (e) => {
+    console.dir(e.target.value)
+    setData([]);
+    setShelve(e.target.value);
+    if (e.target.value.length > 8) {
+      try {
+        const res = await axios.get(
+          `http://192.168.101.217:5050/shelve/${e.target.value}`
+        );
+        const obj = res.data;
+        setData(obj);
+        console.dir(obj);
+      } catch (error) {
+        console.dir(error);
+      }
+    }
+  };
+
   const handleClick = async (e) => {
     console.log(txtPartNo);
     try {
-      const res = await axios.get(`http://192.168.101.217:5050/detail/${txtPartNo}`);
+      const res = await axios.get(
+        `http://192.168.101.217:5050/detail/${txtPartNo}`
+      );
       const obj = res.data;
       setData(obj);
       console.dir(obj);
@@ -46,6 +68,8 @@ export default function Home({ obj, error }) {
       console.dir(error);
     }
   };
+
+
 
   return (
     <div className={styles.container}>
@@ -58,30 +82,50 @@ export default function Home({ obj, error }) {
       <main className={styles.container}>
         <br />
         <div>
-          <div className="form-control">
-            <div className="input-group input-group-sm">
-              <input
-                type="text"
-                placeholder="Search…"
-                className="input input-bordered"
-                onChange={handleChange}
-              />
-              <button className="btn btn-square" onClick={handleClick}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          <div className="navbar bg-base-100">
+            <div className="flex-1">
+              <div className="form-control">
+                <div className="input-group input-group-sm">
+                  <input
+                    type="text"
+                    placeholder="Search…"
+                    className="input input-bordered"
+                    onChange={handleChange}
                   />
-                </svg>
-              </button>
+                  <button className="btn btn-square" onClick={handleClick}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="flex-none">
+              <ul className="menu menu-horizontal p-0">
+                <li>
+                  <select className="select select-info w-full max-w-xs" defaultValue={shelve} onChange={handleShelveChange}>
+                    <option disabled value="-">เลือก Location/Shelve&nbsp;&nbsp;</option>
+                    <option value="SNON">SNON</option>
+                    <option value="S-XXX">S-XXX</option>
+                    <option value="S-REPALLET">S-REPALLET</option>
+                    <option value="S-HOLD">S-HOLD</option>
+                    <option value="S-P57">S-P57</option>
+                    <option value="S-P58">S-P58</option>
+                    <option value="S-P59">S-P59</option>
+                  </select>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
