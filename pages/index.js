@@ -19,29 +19,33 @@ export default function Home({ obj, error }) {
   const [data, setData] = useState(obj);
   const handleChange = async (e) => {
     // console.dir(e.target.value)
-    setData([])
-    // setPartNo(e.target.value)
-    try {
-      const res = await axios.get(`http://localhost:5050/detail/${e.target.value}`);
-      const obj = res.data;
-      setData(obj)
-      console.dir(obj)
-    } catch (error) {
-      console.dir(error)
+    // setData([])
+    setPartNo(e.target.value);
+    if (e.target.value.length > 4) {
+      try {
+        const res = await axios.get(
+          `http://localhost:5050/detail/${e.target.value}`
+        );
+        const obj = res.data;
+        setData(obj);
+        console.dir(obj);
+      } catch (error) {
+        console.dir(error);
+      }
     }
-  }
+  };
 
   const handleClick = async (e) => {
-    console.log(txtPartNo)
+    console.log(txtPartNo);
     try {
       const res = await axios.get(`http://localhost:5050/detail/${txtPartNo}`);
       const obj = res.data;
-      setData(obj)
-      console.dir(obj)
+      setData(obj);
+      console.dir(obj);
     } catch (error) {
-      console.dir(error)
+      console.dir(error);
     }
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -83,30 +87,31 @@ export default function Home({ obj, error }) {
         </div>
         <br />
         <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Part No</th>
-              <th>LOTNO</th>
-              <td>SERIAL NO</td>
-              <th>CTN</th>
-              <th>Shelve</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data != null && data.map((x, i) => (
-              <tr key={i}>
-                <th>{i + 1}</th>
-                <td>{x.part_no}</td>
-                <td>{x.lotno}</td>
-                <td>{x.serial_no}</td>
-                <td>{x.qty}</td>
-                <td>{x.shelve}</td>
+          <table className="table table-zebra w-full">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Part No</th>
+                <th>LOTNO</th>
+                <td>SERIAL NO</td>
+                <th>CTN</th>
+                <th>Shelve</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data != null &&
+                data.map((x, i) => (
+                  <tr key={i}>
+                    <th>{i + 1}</th>
+                    <td>{x.part_no}</td>
+                    <td>{x.lotno}</td>
+                    <td>{x.serial_no}</td>
+                    <td>{x.qty}</td>
+                    <td>{x.shelve}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </div>
       </main>
 
@@ -118,12 +123,7 @@ export default function Home({ obj, error }) {
         >
           Powered by{" "}
           <span className={styles.logo}>
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              width={72}
-              height={16}
-            />
+            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
