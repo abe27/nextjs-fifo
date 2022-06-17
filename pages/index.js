@@ -17,10 +17,18 @@ import { useState } from "react";
 export default function Home({ obj, error }) {
   const [txtPartNo, setPartNo] = useState(null);
   const [data, setData] = useState(obj);
-  const handleChange = e => {
+  const handleChange = async (e) => {
     // console.dir(e.target.value)
     setData([])
-    setPartNo(e.target.value)
+    // setPartNo(e.target.value)
+    try {
+      const res = await axios.get(`http://localhost:5050/detail/${e.target.value}`);
+      const obj = res.data;
+      setData(obj)
+      console.dir(obj)
+    } catch (error) {
+      console.dir(error)
+    }
   }
 
   const handleClick = async (e) => {
