@@ -21,7 +21,7 @@ export default function Home({ obj, error }) {
     // console.dir(e.target.value)
     setData([])
     setPartNo(e.target.value);
-    if (e.target.value.length > 4) {
+    if (e.target.value.length > 8) {
       try {
         const res = await axios.get(
           `http://192.168.101.217:5050/detail/${e.target.value}`
