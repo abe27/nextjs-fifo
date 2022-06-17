@@ -24,7 +24,7 @@ export default function Home({ obj, error }) {
     if (e.target.value.length > 4) {
       try {
         const res = await axios.get(
-          `http://localhost:5050/detail/${e.target.value}`
+          `http://127.0.0.1:5050/detail/${e.target.value}`
         );
         const obj = res.data;
         setData(obj);
@@ -38,7 +38,7 @@ export default function Home({ obj, error }) {
   const handleClick = async (e) => {
     console.log(txtPartNo);
     try {
-      const res = await axios.get(`http://localhost:5050/detail/${txtPartNo}`);
+      const res = await axios.get(`http://127.0.0.1:5050/detail/${txtPartNo}`);
       const obj = res.data;
       setData(obj);
       console.dir(obj);
