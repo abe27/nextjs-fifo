@@ -19,7 +19,7 @@ export default function Home({ obj, error }) {
   const [data, setData] = useState(obj);
   const handleChange = async (e) => {
     // console.dir(e.target.value)
-    // setData([])
+    setData([])
     setPartNo(e.target.value);
     if (e.target.value.length > 4) {
       try {
