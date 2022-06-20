@@ -1,5 +1,6 @@
 import {
   Box,
+  Divider,
   Stat,
   StatLabel,
   StatNumber,
@@ -10,14 +11,26 @@ const StatElement = ({ objData }) => {
     <>
       {objData &&
         objData.map((x, i) => (
-          <Box key={i} boxShadow="lg" bg="white" w="100%" p={4} borderRadius="lg">
-            <Stat>
-              <StatNumber>{x.part_no}</StatNumber>
-              <StatLabel>LotNo: {x.lotno}</StatLabel>
-              <StatLabel>SerialNo.: {x.serial_no}</StatLabel>
-              <StatHelpText>Shelve: {x.shelve}</StatHelpText>
-            </Stat>
-          </Box>
+          <>
+            <p />
+            <Box
+              key={i}
+              boxShadow="lg"
+              bg="white"
+              w="100%"
+              p={4}
+              borderRadius="lg"
+            >
+              <Stat>
+                <StatNumber>{x.part_no}</StatNumber>
+                <StatLabel>LotNo: {x.lotno}</StatLabel>
+                <StatLabel>SerialNo.: {x.serial_no}</StatLabel>
+                <StatHelpText>Shelve: {x.shelve}</StatHelpText>
+              </Stat>
+            </Box>
+            <Divider />
+            <br />
+          </>
         ))}
     </>
   );
