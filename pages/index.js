@@ -26,7 +26,7 @@ export default function Home({ obj, error }) {
     if (e.target.value.length > 8) {
       try {
         const res = await axios.get(
-          `http://127.0.0.1:5050/detail/${e.target.value}`
+          `http://192.168.101.217:5050/detail/${e.target.value}`
         );
         const obj = res.data;
         setData(obj);
@@ -41,7 +41,7 @@ export default function Home({ obj, error }) {
     setPartNo(null);
     setData([]);
     setShelve(e.target.value);
-    let lnk = `http://127.0.0.1:5050/shelve/${e.target.value}`;
+    let lnk = `http://192.168.101.217:5050/shelve/${e.target.value}`;
     try {
       const res = await axios.get(lnk);
       const obj = res.data;
