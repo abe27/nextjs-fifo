@@ -15,7 +15,7 @@ import { useState } from "react";
 // };
 
 export default function Home({ obj, error }) {
-  const [shelve, setShelve] = useState("-")
+  const [shelve, setShelve] = useState("-");
   const [txtPartNo, setPartNo] = useState(null);
   const [data, setData] = useState(obj);
 
@@ -26,7 +26,7 @@ export default function Home({ obj, error }) {
     if (e.target.value.length > 8) {
       try {
         const res = await axios.get(
-          `http://192.168.101.217:5050/detail/${e.target.value}`
+          `http://127.0.0.1:5050/detail/${e.target.value}`
         );
         const obj = res.data;
         setData(obj);
@@ -38,20 +38,17 @@ export default function Home({ obj, error }) {
   };
 
   const handleShelveChange = async (e) => {
-    console.dir(e.target.value)
+    setPartNo(null);
     setData([]);
     setShelve(e.target.value);
-    if (e.target.value.length > 8) {
-      try {
-        const res = await axios.get(
-          `http://192.168.101.217:5050/shelve/${e.target.value}`
-        );
-        const obj = res.data;
-        setData(obj);
-        console.dir(obj);
-      } catch (error) {
-        console.dir(error);
-      }
+    let lnk = `http://127.0.0.1:5050/shelve/${e.target.value}`;
+    try {
+      const res = await axios.get(lnk);
+      const obj = res.data;
+      setData(obj);
+      console.dir(obj);
+    } catch (error) {
+      console.dir(error);
     }
   };
 
@@ -68,8 +65,6 @@ export default function Home({ obj, error }) {
       console.dir(error);
     }
   };
-
-
 
   return (
     <div className={styles.container}>
@@ -114,8 +109,14 @@ export default function Home({ obj, error }) {
             <div className="flex-none">
               <ul className="menu menu-horizontal p-0">
                 <li>
-                  <select className="select select-info w-full max-w-xs" defaultValue={shelve} onChange={handleShelveChange}>
-                    <option disabled value="-">เลือก Location/Shelve&nbsp;&nbsp;</option>
+                  <select
+                    className="select select-info w-full max-w-xs"
+                    defaultValue={shelve}
+                    onChange={handleShelveChange}
+                  >
+                    <option disabled value="-">
+                      เลือก Location/Shelve&nbsp;&nbsp;
+                    </option>
                     <option value="SNON">SNON</option>
                     <option value="S-XXX">S-XXX</option>
                     <option value="S-REPALLET">S-REPALLET</option>
