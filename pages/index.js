@@ -1,28 +1,35 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import LoadingElement from "../components/loading";
+import StatElement from "../components/stat";
+import SearchElement from "../components/search";
+import { Box } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 
-// Home.getInitialProps = async (ctx) => {
-//   try {
-//     const res = await axios.get("http://localhost:5050/part");
-//     const obj = res.data;
-//     return { obj };
-//   } catch (error) {
-//     return { error };
-//   }
-// };
+Home.getInitialProps = async (ctx) => {
+  try {
+    const obj = [];
+    return { obj };
+  } catch (error) {
+    return { error };
+  }
+};
 
 export default function Home({ obj, error }) {
-  const [shelve, setShelve] = useState("-");
+  const [txtShelve, setTxtShelve] = useState("Action");
   const [txtPartNo, setPartNo] = useState(null);
   const [data, setData] = useState(obj);
 
-  const handleChange = async (e) => {
-    // console.dir(e.target.value)
+  const onHandleChange = async (e) => {
+    setTxtShelve(`Action ${e.target.value}`);
     setData([]);
     setPartNo(e.target.value);
+    if (e.target.value.length > 0 && e.target.value.length < 8) {
+      setData(null);
+    }
+
     if (e.target.value.length > 8) {
       try {
         const res = await axios.get(
@@ -30,37 +37,22 @@ export default function Home({ obj, error }) {
         );
         const obj = res.data;
         setData(obj);
-        console.dir(obj);
+        setTxtShelve(`Action ${e.target.value}(${obj.length})`);
       } catch (error) {
         console.dir(error);
       }
     }
   };
 
-  const handleShelveChange = async (e) => {
+  const handleShelveChange = async (txt) => {
     setPartNo(null);
     setData([]);
-    setShelve(e.target.value);
-    let lnk = `http://851e0741942a.sn.mynetname.net:5050/shelve/${e.target.value}`;
+    let lnk = `http://851e0741942a.sn.mynetname.net:5050/shelve/${txt}`;
     try {
       const res = await axios.get(lnk);
       const obj = res.data;
       setData(obj);
-      console.dir(obj);
-    } catch (error) {
-      console.dir(error);
-    }
-  };
-
-  const handleClick = async (e) => {
-    console.log(txtPartNo);
-    try {
-      const res = await axios.get(
-        `http://851e0741942a.sn.mynetname.net:5050/detail/${txtPartNo}`
-      );
-      const obj = res.data;
-      setData(obj);
-      console.dir(obj);
+      setTxtShelve(`${txt}(${obj.length})`);
     } catch (error) {
       console.dir(error);
     }
@@ -74,90 +66,12 @@ export default function Home({ obj, error }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.container}>
-        <br />
-        <div>
-          <div className="navbar bg-base-100">
-            <div className="flex-1">
-              <div className="form-control">
-                <div className="input-group input-group-sm">
-                  <input
-                    type="text"
-                    placeholder="Search…"
-                    className="input input-bordered"
-                    onChange={handleChange}
-                  />
-                  <button className="btn btn-square" onClick={handleClick}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="flex-none">
-              <ul className="menu menu-horizontal p-0">
-                <li>
-                  <select
-                    className="select select-info w-full max-w-xs"
-                    defaultValue={shelve}
-                    onChange={handleShelveChange}
-                  >
-                    <option disabled value="-">
-                      เลือก Location/Shelve&nbsp;&nbsp;
-                    </option>
-                    <option value="SNON">SNON</option>
-                    <option value="S-XXX">S-XXX</option>
-                    <option value="S-REPALLET">S-REPALLET</option>
-                    <option value="S-HOLD">S-HOLD</option>
-                    <option value="S-P57">S-P57</option>
-                    <option value="S-P58">S-P58</option>
-                    <option value="S-P59">S-P59</option>
-                  </select>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <br />
-        <div className="overflow-x-auto">
-          <table className="table table-zebra w-full">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Part No</th>
-                <th>LOTNO</th>
-                <td>SERIAL NO</td>
-                <th>CTN</th>
-                <th>Shelve</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data != null &&
-                data.map((x, i) => (
-                  <tr key={i}>
-                    <th>{i + 1}</th>
-                    <td>{x.part_no}</td>
-                    <td>{x.lotno}</td>
-                    <td>{x.serial_no}</td>
-                    <td>{x.qty}</td>
-                    <td>{x.shelve}</td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
+      <main>
+        <Box padding={4}>
+          <SearchElement txtAction={txtShelve} handleChange={onHandleChange} handleShelve={handleShelveChange}/>
+          {data == null && <LoadingElement />}
+          {data != null && <StatElement objData={data}/>}
+        </Box>
       </main>
 
       <footer className={styles.footer}>

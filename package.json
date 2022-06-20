@@ -18,6 +18,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@chakra-ui/icons": "^2.0.2",
     "autoprefixer": "^10.4.7",
     "axios": "^0.27.2",
     "daisyui": "^2.15.4",
