@@ -26,7 +26,7 @@ export default function Home({ obj, error }) {
     if (e.target.value.length > 8) {
       try {
         const res = await axios.get(
-          `http://192.168.101.217:5050/detail/${e.target.value}`
+          `http://851e0741942a.sn.mynetname.net:5050/detail/${e.target.value}`
         );
         const obj = res.data;
         setData(obj);
@@ -41,7 +41,7 @@ export default function Home({ obj, error }) {
     setPartNo(null);
     setData([]);
     setShelve(e.target.value);
-    let lnk = `http://192.168.101.217:5050/shelve/${e.target.value}`;
+    let lnk = `http://851e0741942a.sn.mynetname.net:5050/shelve/${e.target.value}`;
     try {
       const res = await axios.get(lnk);
       const obj = res.data;
@@ -56,7 +56,7 @@ export default function Home({ obj, error }) {
     console.log(txtPartNo);
     try {
       const res = await axios.get(
-        `http://192.168.101.217:5050/detail/${txtPartNo}`
+        `http://851e0741942a.sn.mynetname.net:5050/detail/${txtPartNo}`
       );
       const obj = res.data;
       setData(obj);
