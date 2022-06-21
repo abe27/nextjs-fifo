@@ -45,7 +45,6 @@ export default function Home({ obj, error }) {
   };
 
   const handleShelveChange = async (txt) => {
-    setPartNo(null);
     setData([]);
     let lnk = `http://851e0741942a.sn.mynetname.net:5050/shelve/${txt}`;
     try {
@@ -56,6 +55,7 @@ export default function Home({ obj, error }) {
     } catch (error) {
       console.dir(error);
     }
+    setPartNo('');
   };
 
   return (
@@ -73,19 +73,6 @@ export default function Home({ obj, error }) {
           {data != null && <StatElement objData={data}/>}
         </Box>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 

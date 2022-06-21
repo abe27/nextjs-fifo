@@ -11,26 +11,18 @@ const StatElement = ({ objData }) => {
     <>
       {objData &&
         objData.map((x, i) => (
-          <>
-            <p />
-            <Box
-              key={i}
-              boxShadow="lg"
-              bg="white"
-              w="100%"
-              p={4}
-              borderRadius="lg"
-            >
+          <div key={i}>
+            <Box boxShadow="lg" bg="white" w="100%" p={4} borderRadius="lg">
               <Stat>
-                <StatNumber>{x.part_no}</StatNumber>
-                <StatLabel>LotNo: {x.lotno}</StatLabel>
-                <StatLabel>SerialNo.: {x.serial_no}</StatLabel>
-                <StatHelpText>Shelve: {x.shelve}</StatHelpText>
+                <StatNumber><span className="text-blue-900">{x.part_no}</span></StatNumber>
+                <StatLabel>On Lot: <span className="text-blue-900">{x.on_fifo_month}</span></StatLabel>
+                <StatLabel>LotNo: <span className="text-blue-900">{x.lotno}</span> SerialNo.: <span className="text-blue-900">{x.serial_no}</span></StatLabel>
+                <StatHelpText>Shelve: <span className="text-blue-900">{x.shelve}</span> Pallet: <span className="text-blue-900">{x.pallet_no}</span></StatHelpText>
               </Stat>
             </Box>
             <Divider />
             <br />
-          </>
+          </div>
         ))}
     </>
   );
