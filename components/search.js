@@ -28,7 +28,7 @@ const SearchElement = ({ txtAction, handleChange, handleShelve }) => {
           {txtAction}
         </MenuButton>
         <MenuList>
-        <MenuItem onClick={() => handleShelve("S-XXX")}>S-XXX</MenuItem>
+          <MenuItem onClick={() => handleShelve("S-XXX")}>S-XXX</MenuItem>
           <MenuItem onClick={() => handleShelve("S-CK1")}>S-CK1</MenuItem>
           <MenuItem onClick={() => handleShelve("SNON")}>SNON</MenuItem>
           <MenuItem onClick={() => handleShelve("S-REPALLET")}>
