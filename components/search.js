@@ -29,7 +29,7 @@ const SearchElement = ({ txtAction, handleChange, handleShelve }) => {
         </MenuButton>
         <MenuList>
           <MenuItem onClick={() => handleShelve("S-XXX")}>S-XXX</MenuItem>
-          {process.env.API_TARGP === "C" ? (
+          {process.env.API_TAGRP === "C" ? (
             <MenuItem onClick={() => handleShelve("S-CK1")}>S-CK1</MenuItem>
           ) : (
             <MenuItem onClick={() => handleShelve("S-CK2")}>S-CK2</MenuItem>
