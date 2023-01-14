@@ -33,7 +33,7 @@ export default function Home({ obj, error }) {
     if (e.target.value.length > 8) {
       try {
         const res = await axios.get(
-          `http://851e0741942a.sn.mynetname.net:5050/detail/${e.target.value}`
+          `${process.env.URL_HOST}/detail/${e.target.value}?tagrp=${process.env.API_TAGRP}`
         );
         const obj = res.data;
         setData(obj);
@@ -46,7 +46,7 @@ export default function Home({ obj, error }) {
 
   const handleShelveChange = async (txt) => {
     setData([]);
-    let lnk = `http://851e0741942a.sn.mynetname.net:5050/shelve/${txt}`;
+    let lnk = `${process.env.URL_HOST}/shelve/${txt}?tagrp=${process.env.API_TAGRP}`;
     try {
       const res = await axios.get(lnk);
       const obj = res.data;
